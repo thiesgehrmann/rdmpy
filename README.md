@@ -5,7 +5,7 @@ It automatically generates user and timestamped files, together with a JSON file
 
 
 # Installation
-pip install https://github.com/thiesgehrmann/rdmpy
+pip install git+https://github.com/thiesgehrmann/rdmpy
 
 
 # Usage
@@ -27,14 +27,27 @@ with RDM('my_new_file.txt', 'r') as ifd:
     X = pd.read_csv(ifd)
 #ewith
 
+
+# If you need a file descriptor instead of a filename, you can get that with the `file=True` parameter:
+
+
+# If we want to open the most recent file, we can do that by explicitly setting the read flag.
+with RDM('my_new_file.txt', 'rw', file=True) as ofd:
+    ifd.write(str(X))
+#ewith
+
 ```
+
 
 ## Specifying additional metadata
 
-The real advantage of this approach is that we can store additional metadata in the json file.
+The real advantage of this approach is that we can store additional metadata in the JSON file that can't be stored in the filename itself.
 
 ```python
-with RDM('my_new_file.txt','rw', source="~/repos/mymethod.ipynb", 'generated_for'='ColleagueX') as ofd:
+with RDM('my_new_file.txt','rw',
+         source="~/repos/mymethod.ipynb",
+         generated_for='ColleagueX',
+         description="A small table with data.") as ofd:
     D.to_csv(ofd, index=False)
 #ewith
 ```

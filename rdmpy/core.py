@@ -124,7 +124,8 @@ class RDM(object):
             suffix=self.suffix if self.suffix is not None else '')
         
         if self._session['file']:
-            fd = open(session['filepath'], mode)
+            m = 'w' if 'w' in self._session['mode'] else 'r'
+            fd = open(self._session['filepath'], m)
             self._session['fd'] = fd
             return fd
         #fi
