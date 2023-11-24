@@ -49,14 +49,14 @@ class RDM(object):
     #edef
     
     def _rdmstamp(self, nouser=False, nodate=False):
-        date = datetime.datetime.now().isoformat()
+        date = datetime.datetime.now().isoformat().replace('.',':').replace(':','-')
         user = os.getlogin()
 
         return {
             'user' : user,
             'created' : date,
             'modified' : date,
-            'stamp' : 'rdm_{user}_{date}'.format(user=user if not nouser else '*', date=date if not nodate else '*').replace('.',':')
+            'stamp' : 'rdm_{user}_{date}'.format(user=user if not nouser else '*', date=date if not nodate else '*').replace('.','-')
         }
     #edef
 
@@ -69,7 +69,7 @@ class RDM(object):
                 'user' : meta['user'],
                 'created' : meta['created'],
                 'modified' : meta['modified'],
-                'stamp' : 'rdm_{user}_{date}'.format(user=meta['user'], date=meta['created']).replace('.',':')
+                'stamp' : 'rdm_{user}_{date}'.format(user=meta['user'], date=meta['created']).replace('.','-')
             }
         else:
             stamp = filename[::-1][:filename[::-1].find('_mdr.')][::-1].split('.')[0].split('_')
@@ -77,7 +77,7 @@ class RDM(object):
                 'user'     : stamp[0],
                 'created'  : stamp[1],
                 'modified' : stamp[1],
-                'stamp' : 'rdm_{user}_{date}'.format(user=stamp[0], date=stamp[1]).replace('.',':')
+                'stamp' : 'rdm_{user}_{date}'.format(user=stamp[0], date=stamp[1]).replace('.','-')
             }
         #fi
     #edef
