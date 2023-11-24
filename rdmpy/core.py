@@ -10,7 +10,7 @@ class RDM(object):
         "user"   : os.getlogin()
     }
     
-    def __init__(self, path, mode='w', file=False, nouser=False, suffix=True, modified=True, **meta):
+    def __init__(self, path, mode='w', file=False, nouser=False, suffix=True, modified=True, tell=False, **meta):
         self.path = '/'.join(path.split('/')[:-1]) if len(path.split('/')) > 1 else '.'
         self.filename = path.split('/')[-1]
         self.prefix = '.'.join(self.filename.split('.')[:-1]) if suffix else self.filename
@@ -24,6 +24,7 @@ class RDM(object):
         meta['basefile'] = self.filename
         
         self._session = {
+            'tell' : tell,
             'mode' : mode,
             'file' : file,
             'meta' : meta,
@@ -159,6 +160,10 @@ class RDM(object):
         nv = js.get(self._session['filename'],{})
         nv.update(self._session['meta'])
         js[self._session['filename']] = nv
+        
+        if self._session['tell']:
+            print(self._session['filepath'])
+        #fi
         
         self._writejson(js)
     #edef
